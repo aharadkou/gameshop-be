@@ -1,0 +1,30 @@
+[
+  {
+    "_id": 1,
+    "name": "Shooter"
+  },
+  {
+    "_id": 2,
+    "name": "Racing"
+  },
+  {
+    "_id": 3,
+    "name": "Adventure"
+  },
+  {
+    "_id": 4,
+    "name": "RPG"
+  },
+  {
+    "_id": 5,
+    "name": "Action"
+  },
+  {
+    "_id": 6,
+    "name": "Horror"
+  },
+  {
+    "_id": 7,
+    "name": "Strategy"
+  }
+]

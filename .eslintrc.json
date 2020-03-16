@@ -1,0 +1,24 @@
+{
+    "extends": ["google", "eslint:recommended"],
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "new-cap": ["error", { "capIsNew": false }],
+      "linebreak-style": 0,
+      "max-len": [2, 140, 2],
+      "arrow-parens": ["error", "as-needed"],
+      "require-jsdoc": ["error", {
+        "require": {
+            "FunctionDeclaration": false
+        }
+      }],
+      "comma-dangle": ["error", "never"],
+      "object-curly-spacing": ["error", "always"]
+    }
+}

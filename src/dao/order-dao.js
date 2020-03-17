@@ -1,4 +1,6 @@
 const Order = require('../models/order');
+const CUSTOM_LABELS = require('../constants/constants').CUSTOM_LABELS;
+const getFilterRegExp = require('../utils/string-utils').getFilterRegExp;
 
 function placeOrder(order, cart) {
   if (order && cart) {
@@ -18,12 +20,29 @@ function placeOrder(order, cart) {
   }
 }
 
-function getOrders(processedStatus) {
-  const findParams = {};
+function getOrders(page, limit, processedStatus, filter) {
+  const searchRegExp = getFilterRegExp(filter);
+  const findParams = {
+    $or: [
+      { name: searchRegExp },
+      { email: searchRegExp },
+      { phone: searchRegExp }
+    ]
+  };
+  if (filter && !isNaN(filter.trim()) && Number.isSafeInteger(+filter)) {
+    findParams.$or.push({
+      _id: +filter
+    });
+  }
   if (processedStatus !== null && processedStatus !== undefined) {
     findParams.isProcessed = processedStatus;
   }
-  return Order.find(findParams).sort({ date: 'desc' }).populate('cartItems.game');
+  return Order.paginate(
+      findParams,
+      { page, limit, sort: { date: 'desc' }, customLabels: CUSTOM_LABELS, populate: 'cartItems.game' }
+  ).catch(error => {
+    console.log(error);
+  });
 }
 
 function updateOrder(id, order) {

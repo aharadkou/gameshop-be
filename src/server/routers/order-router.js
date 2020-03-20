@@ -18,6 +18,14 @@ router.put('/:id', (request, response) => {
   );
 });
 
+router.delete('/:id', (request, response) => {
+  orderDAO.deleteOrderById(request.params.id).then(
+      order => response.json(order)
+  ).catch(
+      error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: error })
+  );
+});
+
 router.get('/', (request, response) => {
   orderDAO.getOrders(request.query.page, request.query.limit, request.query.processedStatus, request.query.filter).then(
       orders => response.json(orders)

@@ -1,1 +1,1 @@
-# angular-mentoring-training-back
+# gameshop-server

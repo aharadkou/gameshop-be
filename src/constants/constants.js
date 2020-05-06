@@ -4,17 +4,17 @@ const DEFAULT_PORT = 3000;
 
 const PATTERN_BLANK = /^\s*$/;
 
-const INCLUDE_IN_AGGREGATION = 1;
-
 const CUSTOM_LABELS = {
   totalDocs: 'totalItems',
   docs: 'data'
 };
 
+const JWTZ_CONFIG = { customScopeKey: 'permissions' };
+
 module.exports = {
   DB_URL,
   DEFAULT_PORT,
   PATTERN_BLANK,
-  INCLUDE_IN_AGGREGATION,
-  CUSTOM_LABELS
+  CUSTOM_LABELS,
+  JWTZ_CONFIG
 };

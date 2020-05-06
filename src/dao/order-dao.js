@@ -40,9 +40,7 @@ function getOrders(page, limit, processedStatus, filter) {
   return Order.paginate(
       findParams,
       { page, limit, sort: { date: 'desc' }, customLabels: CUSTOM_LABELS, populate: 'cartItems.game' }
-  ).catch(error => {
-    console.log(error);
-  });
+  );
 }
 
 function updateOrder(id, order) {

@@ -1,4 +1,5 @@
 const Game = require('../models/game');
+const Order = require('../models/order');
 const getFilterRegExp = require('../utils/string-utils').getFilterRegExp;
 const sortArrayToObject = require('../utils/string-utils').sortArrayToObject;
 const CUSTOM_LABELS = require('../constants/constants').CUSTOM_LABELS;
@@ -30,17 +31,22 @@ function getGamesByIds(ids) {
 }
 
 function addGame(game) {
-  const gameModel = new Game(game);
-  return gameModel.save(game);
+  return Game.create(game);
 }
 
 function updateGame(id, game) {
   game._id = id;
-  return Game.findByIdAndUpdate({ _id: id }, Game, { new: true }).populate('categories');
+  return Game.findByIdAndUpdate(id, game, { new: true }).populate('categories');
 }
 
 function deleteGameById(id) {
-  return Game.findByIdAndDelete(id);
+  return Game.findByIdAndDelete(id).then(result => {
+    Order.updateMany(
+        { cartItems: { $elemMatch: { game: id } } },
+        { $pull: { cartItems: { game: id } } }
+    );
+    return result;
+  });
 }
 
 module.exports = {

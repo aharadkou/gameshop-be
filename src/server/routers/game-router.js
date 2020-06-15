@@ -40,23 +40,16 @@ router.post('/',
 
 router.put('/:id', upload.single('image'),
     authentication,
-    jwtAuthz(['edit:product'], JWTZ_CONFIG),
+    jwtAuthz(['update:product'], JWTZ_CONFIG),
     normalizeBody,
-    validation.validateGame, (request, response) => {
+    validation.validateGame,
+    (request, response) => {
       gameDAO.updateGame(request.params.id, request.body).then(
           game => response.json(game)
       ).catch(
           error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: error })
       );
     });
-
-router.delete('/:id', authentication, jwtAuthz(['delete:product'], JWTZ_CONFIG), (request, response) => {
-  gameDAO.deleteGameById(request.params.id).then(
-      game => response.json(game)
-  ).catch(
-      error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: error })
-  );
-});
 
 function normalizeBody(request, response, next) {
   if (request.body.id) {
@@ -69,5 +62,13 @@ function normalizeBody(request, response, next) {
   }
   next();
 }
+
+router.delete('/:id', authentication, jwtAuthz(['delete:product'], JWTZ_CONFIG), (request, response) => {
+  gameDAO.deleteGameById(request.params.id).then(
+      game => response.json(game)
+  ).catch(
+      error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: error })
+  );
+});
 
 module.exports = router;
